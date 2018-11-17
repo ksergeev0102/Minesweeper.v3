@@ -1,20 +1,18 @@
 package lab2.controller;
 
 import lab2.exeptions.Goingabroad;
-import lab2.model.GamingField;
 import lab2.model.Model;
 import lab2.view.ConsoleView;
-import lab2.view.View;
 
 import java.util.Scanner;
 
 public class Controller {
-    Model model = new Model();
-    View view = new ConsoleView();
+    private Model model;
+    private ConsoleView view;
     Scanner scanner = new Scanner(System.in);
 
 
-    public GamingField FirstMove() throws Goingabroad {
+    public void FirstMove() throws Goingabroad {
         System.out.println("Введите размер поля: ");
         int size = scanner.nextInt();
         if (size > 20 || size == 1 || size == 0 || size < 0) {
@@ -34,19 +32,18 @@ public class Controller {
                     lab3.log.Log.printError("Выход за пределы поля!");
                     throw new Goingabroad("Выход за пределы поля!");
                 } else {
-                    GamingField gamingField = model.getField(size, mines, x, y);
-                    gamingField.openCell(x, y);
-                    view.showGameField(gamingField);
-                    return gamingField;
+                    model = new Model(size,mines,x,y);
+                    view = new ConsoleView(model);
+                    model.getField().openCell(x, y);
+                    view.showGameField();
                 }
             }
         }
     }
 
     public void Move() throws Goingabroad {
-        GamingField gamingField = FirstMove();
         long start = System.nanoTime();
-        while (gamingField.sumNoOpenElements() > gamingField.checkMines()) {
+        while (this.model.getField().sumNoOpenElements() > this.model.getField().checkMines()) {
             System.out.println("Выберите дальнейшее действие : \n " +
                     "(1 - сделать ход/0 - поставить флажок/2 - удалить флажок)");
             int answ = scanner.nextInt();
@@ -54,40 +51,40 @@ public class Controller {
                 System.out.println("Выберите координаты следующего хода: ");
                 int x1 = scanner.nextInt();
                 int y1 = scanner.nextInt();
-                if (x1 > gamingField.checkSize() || y1 > gamingField.checkSize() || x1 * y1 < 0) {
+                if (x1 > this.model.getField().checkSize() || y1 > this.model.getField().checkSize() || x1 * y1 < 0) {
                     lab3.log.Log.printError("Выход за пределы поля!");
                     throw new Goingabroad("Выход за пределы поля!");
                 } else {
-                    if (gamingField.checkMine(x1, y1) == true) {
+                    if (this.model.getField().checkMine(x1, y1) == true) {
                         System.out.println("Вы взорвались!");
-                        gamingField.showMines();
+                        this.model.getField().showMines();
                         return;
                     } else {
-                        gamingField.openCell(x1, y1);
-                        view.showGameField(gamingField);
+                        this.model.getField().openCell(x1, y1);
+                        view.showGameField();
                     }
                 }
-            } else if (answ == 0 && gamingField.checkFlags() > 0) {
+            } else if (answ == 0 && this.model.getField().checkFlags() > 0) {
                 System.out.println("Выберите координаты флажка: ");
                 int x2 = scanner.nextInt();
                 int y2 = scanner.nextInt();
-                if (x2 > gamingField.checkSize() || y2 > gamingField.checkSize() || x2 * y2 < 0) {
+                if (x2 > this.model.getField().checkSize() || y2 > this.model.getField().checkSize() || x2 * y2 < 0) {
                     lab3.log.Log.printError("Выход за пределы поля!");
                     throw new Goingabroad("Выход за пределы поля!");
                 } else {
-                    gamingField.putFlag(x2, y2);
-                    view.showGameField(gamingField);
+                    this.model.getField().putFlag(x2, y2);
+                    view.showGameField();
                 }
-            } else if (answ == 2 && gamingField.checkFlags() < gamingField.checkMines()) {
+            } else if (answ == 2 && this.model.getField().checkFlags() < this.model.getField().checkMines()) {
                 System.out.println("Выберите координаты флажка: ");
                 int x3 = scanner.nextInt();
                 int y3 = scanner.nextInt();
-                if (x3 > gamingField.checkSize() || y3 > gamingField.checkSize() || x3 * y3 < 0) {
+                if (x3 > this.model.getField().checkSize() || y3 > this.model.getField().checkSize() || x3 * y3 < 0) {
                     lab3.log.Log.printError("Выход за пределы поля!");
                     throw new Goingabroad("Выход за пределы поля!");
                 } else {
-                    gamingField.delFlag(x3, y3);
-                    view.showGameField(gamingField);
+                    this.model.getField().delFlag(x3, y3);
+                    view.showGameField();
                 }
             }
         }
