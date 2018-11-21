@@ -57,7 +57,7 @@ public class Controller {
                 } else {
                     if (this.model.getField().checkMine(x1, y1) == true) {
                         System.out.println("Вы взорвались!");
-                        this.model.getField().showMines();
+                        view.showMines();
                         return;
                     } else {
                         this.model.getField().openCell(x1, y1);

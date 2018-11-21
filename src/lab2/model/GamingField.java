@@ -32,6 +32,10 @@ public class GamingField {
         this.forgame.FieldWithNumbers(this.matrixMines);
     }
 
+    public int getValueForgame(int x, int y){
+        return this.forgame.data[x][y];
+    }
+
     public boolean checkMine(int x, int y) {
         if (this.matrixMines.data[x][y] == 1) {
             return true;
@@ -40,23 +44,28 @@ public class GamingField {
         }
     }
 
-    public void showMines() {
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
-                if (this.open_indicator[i][j] == false && this.matrixMines.data[i][j] ==0) {
-                    System.out.printf("[%d:%d]", i, j);
-                } else if (this.open_indicator[i][j] == true && this.matrixMines.data[i][j] ==0 ) {
-                    System.out.printf("( %d )", this.forgame.data[i][j]);
-                } else if (this.flag_indicator[i][j] == false && this.matrixMines.data[i][j] ==1) {
-                    System.out.printf("(bomb)");
-                }
-            }
-            System.out.println("\n");
+    public boolean checkOpen(int x, int y){
+        if(this.open_indicator[x][y] == true){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public boolean checkOpenFlag(int x, int y){
+        if(this.flag_indicator[x][y] == true){
+            return true;
+        } else{
+            return false;
         }
     }
 
     public int checkMines() {
         return this.mines;
+    }
+
+    public int getMine(int x, int y){
+        return this.matrixMines.data[x][y];
     }
 
     public int checkFlags() {
@@ -65,14 +74,6 @@ public class GamingField {
 
     public int checkSize() {
         return this.size;
-    }
-
-    public void showField1() {
-        this.matrixMines.showMatrix();
-    }
-
-    public void showField2() {
-        this.forgame.showMatrix();
     }
 
     public int sumNoOpenElements() {
@@ -85,22 +86,6 @@ public class GamingField {
             }
         }
         return sum;
-    }
-
-    public void showFieldForPlayer() {
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
-                if (this.open_indicator[i][j] == false && this.flag_indicator[i][j] == false) {
-                    System.out.printf("[%d:%d]", i, j);
-                } else if (this.open_indicator[i][j] == true) {
-                    System.out.printf("( %d )", this.forgame.data[i][j]);
-                } else if (this.flag_indicator[i][j] == true) {
-                    System.out.printf("( %d )", 9);
-                }
-            }
-            System.out.println("\n");
-        }
-        System.out.println("Количество флажков:" + this.flags);
     }
 
     public void openCell(int x, int y) {
