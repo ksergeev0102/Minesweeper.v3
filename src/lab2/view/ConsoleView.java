@@ -1,12 +1,12 @@
 package lab2.view;
 
+import lab2.model.Gamemodel;
 import lab2.model.GamingField;
-import lab2.model.Model;
 
 public class ConsoleView implements View {
     private GamingField gamingField;
 
-    public ConsoleView(Model model) {
+    public ConsoleView(Gamemodel model) {
         this.gamingField = model.getField();
     }
 
@@ -24,7 +24,7 @@ public class ConsoleView implements View {
             }
             System.out.println("\n");
         }
-        System.out.println("Количество флажков:" + this.gamingField.checkFlags());
+        System.out.println("Количество флажков:" + this.gamingField.getFlags());
     }
 
     @Override

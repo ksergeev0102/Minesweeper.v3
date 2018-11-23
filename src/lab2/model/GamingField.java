@@ -1,6 +1,8 @@
 package lab2.model;
 
 
+import java.awt.*;
+
 public class GamingField {
     private int flags;
     private int mines;
@@ -11,7 +13,7 @@ public class GamingField {
     private boolean[][] flag_indicator;
     private Matrix forgame;
 
-    public GamingField(int size, int mines, int m, int n) {
+    public GamingField(int size, int mines) {
         this.mines = mines;
         this.size = size;
         this.flags = mines;
@@ -26,13 +28,16 @@ public class GamingField {
                 this.flag_indicator[i][j] = false;
             }
         }
+    }
+
+    public void inicialized(int mines, int m, int n) {
         this.matrixMines.randomFilling(mines, value);
         this.matrixMines.data[m][n] = 0;
         this.open_indicator[m][n] = true;
         this.forgame.FieldWithNumbers(this.matrixMines);
     }
 
-    public int getValueForgame(int x, int y){
+    public int getValueForgame(int x, int y) {
         return this.forgame.data[x][y];
     }
 
@@ -44,18 +49,18 @@ public class GamingField {
         }
     }
 
-    public boolean checkOpen(int x, int y){
-        if(this.open_indicator[x][y] == true){
+    public boolean checkOpen(int x, int y) {
+        if (this.open_indicator[x][y] == true) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
 
-    public boolean checkOpenFlag(int x, int y){
-        if(this.flag_indicator[x][y] == true){
+    public boolean checkOpenFlag(int x, int y) {
+        if (this.flag_indicator[x][y] == true) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }
@@ -64,11 +69,19 @@ public class GamingField {
         return this.mines;
     }
 
-    public int getMine(int x, int y){
+    public int getMine(int x, int y) {
         return this.matrixMines.data[x][y];
     }
 
-    public int checkFlags() {
+    public boolean checkFlags(int x, int y) {
+        if (this.flag_indicator[x][y] == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getFlags() {
         return this.flags;
     }
 
@@ -76,7 +89,23 @@ public class GamingField {
         return this.size;
     }
 
-    public int sumNoOpenElements() {
+    public boolean youWon() {
+        int sum = 0;
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                if (this.open_indicator[i][j] == false) {
+                    sum++;
+                }
+            }
+        }
+        if (sum == this.mines) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int sumNoOpen() {
         int sum = 0;
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
@@ -139,5 +168,39 @@ public class GamingField {
         } else {
             return;
         }
+    }
+
+    public void inverseFlag(int x, int y) {
+        this.flag_indicator[x][y] = !this.flag_indicator[x][y];
+    }
+
+    void paintBomb(Graphics g, int x, int y, Color color) {
+        g.setColor(color);
+        g.fillRect(x * 9 + 7, y * 9 + 10, 18, 10);
+        g.fillRect(x * 9 + 11, y * 9 + 6, 10, 18);
+        g.fillRect(x * 9 + 9, y * 9 + 8, 14, 14);
+        g.setColor(Color.white);
+        g.fillRect(x * 9 + 11, y * 9 + 10, 4, 4);
+    }
+
+    void paintString(Graphics g, String str, int x, int y, Color color) {
+        g.setColor(color);
+        g.setFont(new Font("", Font.BOLD, 9));
+        g.drawString(str, x * 9 + 8, y * 9 + 26);
+    }
+
+    public void paint(Graphics g, int x, int y) {
+        g.setColor(Color.lightGray);
+        g.drawRect(x * 9, y * 9, 9, 9);
+        if (!this.checkOpen(x, y)) {
+            if ((this.checkMine(x, y) || this.youWon()) && this.checkMine(x, y)) paintBomb(g, x, y, Color.black);
+            else {
+                g.setColor(Color.lightGray);
+                g.fill3DRect(x * 9, y * 9, 9, 9, true);
+                if (this.checkOpenFlag(x, y)) paintString(g, "F", x, y, Color.red);
+            }
+        } else if (this.checkMine(x, y)) paintBomb(g, x, y, this.checkMine(x, y) ? Color.red : Color.black);
+        else if (this.getValueForgame(x, y) > 0)
+            paintString(g, Integer.toString(this.getValueForgame(x, y)), x, y, new Color(0x0000FF));
     }
 }

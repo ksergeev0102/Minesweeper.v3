@@ -1,13 +1,14 @@
 package lab2.controller;
 
 import lab2.exeptions.Goingabroad;
-import lab2.model.Model;
+import lab2.model.Gamemodel;
 import lab2.view.ConsoleView;
 
+import javax.swing.*;
 import java.util.Scanner;
 
-public class Controller {
-    private Model model;
+public class Controller extends JFrame {
+    private Gamemodel model;
     private ConsoleView view;
     Scanner scanner = new Scanner(System.in);
 
@@ -32,8 +33,9 @@ public class Controller {
                     lab3.log.Log.printError("Выход за пределы поля!");
                     throw new Goingabroad("Выход за пределы поля!");
                 } else {
-                    model = new Model(size,mines,x,y);
+                    model = new Gamemodel(size,mines);
                     view = new ConsoleView(model);
+                    model.setField(mines,x,y);
                     model.getField().openCell(x, y);
                     view.showGameField();
                 }
@@ -43,7 +45,7 @@ public class Controller {
 
     public void Move() throws Goingabroad {
         long start = System.nanoTime();
-        while (this.model.getField().sumNoOpenElements() > this.model.getField().checkMines()) {
+        while (!this.model.getField().youWon()) {
             System.out.println("Выберите дальнейшее действие : \n " +
                     "(1 - сделать ход/0 - поставить флажок/2 - удалить флажок)");
             int answ = scanner.nextInt();
@@ -64,7 +66,7 @@ public class Controller {
                         view.showGameField();
                     }
                 }
-            } else if (answ == 0 && this.model.getField().checkFlags() > 0) {
+            } else if (answ == 0 && this.model.getField().getFlags() > 0) {
                 System.out.println("Выберите координаты флажка: ");
                 int x2 = scanner.nextInt();
                 int y2 = scanner.nextInt();
@@ -75,7 +77,7 @@ public class Controller {
                     this.model.getField().putFlag(x2, y2);
                     view.showGameField();
                 }
-            } else if (answ == 2 && this.model.getField().checkFlags() < this.model.getField().checkMines()) {
+            } else if (answ == 2 && this.model.getField().getFlags() < this.model.getField().checkMines()) {
                 System.out.println("Выберите координаты флажка: ");
                 int x3 = scanner.nextInt();
                 int y3 = scanner.nextInt();
