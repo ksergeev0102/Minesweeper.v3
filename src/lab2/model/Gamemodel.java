@@ -1,9 +1,5 @@
 package lab2.model;
 
-import javax.swing.plaf.nimbus.State;
-import java.awt.*;
-
-
 public class Gamemodel {
     private int off_on;
     private  GamingField gamingField;
@@ -13,7 +9,7 @@ public class Gamemodel {
     }
 
     public void setField(int mines, int x, int y){
-        this.getField().inicialized(mines,x,y);
+        this.getField().inicializaiton(mines,x,y);
         this.off_on = 1;
     }
 

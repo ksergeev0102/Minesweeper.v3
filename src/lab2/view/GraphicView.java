@@ -14,7 +14,7 @@ public class GraphicView extends JFrame {
     private JPanel panel;
     private int sizeCanvas;
     private JLabel label;
-    private int bombs; // количество бомб
+    private int bombs;
 
 
     public GraphicView() {
@@ -52,9 +52,9 @@ public class GraphicView extends JFrame {
                 super.paintComponent(g);
                 for (int i = 0; i < sizeCanvas; i++) {
                     for (int j = 0; j < sizeCanvas; j++) {
-                        if (model.getField().checkOpen(i, j) == false && model.getField().checkFlags(i, j) == false)
+                        if (model.getField().checkOpen(i, j) == false && model.getField().checkFlag(i, j) == false)
                             g.drawRect(i * 30, j * 30, 30, 30);
-                        else if (model.getField().checkOpen(i, j) == true||model.getField().checkFlags(i,j) ==true) {
+                        else if (model.getField().checkOpen(i, j) == true||model.getField().checkFlag(i,j) ==true) {
                             setbox(i, j);
                         }
                     }

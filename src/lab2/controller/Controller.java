@@ -10,10 +10,11 @@ import java.util.Scanner;
 public class Controller extends JFrame {
     private Gamemodel model;
     private ConsoleView view;
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
 
 
     public void FirstMove() throws Goingabroad {
+        this.scanner = new Scanner(System.in);
         System.out.println("Введите размер поля: ");
         int size = scanner.nextInt();
         if (size > 20 || size == 1 || size == 0 || size < 0) {
@@ -53,7 +54,7 @@ public class Controller extends JFrame {
                 System.out.println("Выберите координаты следующего хода: ");
                 int x1 = scanner.nextInt();
                 int y1 = scanner.nextInt();
-                if (x1 > this.model.getField().checkSize() || y1 > this.model.getField().checkSize() || x1 * y1 < 0) {
+                if (x1 > this.model.getField().getSize() || y1 > this.model.getField().getSize() || x1 * y1 < 0) {
                     lab3.log.Log.printError("Выход за пределы поля!");
                     throw new Goingabroad("Выход за пределы поля!");
                 } else {
@@ -70,7 +71,7 @@ public class Controller extends JFrame {
                 System.out.println("Выберите координаты флажка: ");
                 int x2 = scanner.nextInt();
                 int y2 = scanner.nextInt();
-                if (x2 > this.model.getField().checkSize() || y2 > this.model.getField().checkSize() || x2 * y2 < 0) {
+                if (x2 > this.model.getField().getSize() || y2 > this.model.getField().getSize() || x2 * y2 < 0) {
                     lab3.log.Log.printError("Выход за пределы поля!");
                     throw new Goingabroad("Выход за пределы поля!");
                 } else {
@@ -81,7 +82,7 @@ public class Controller extends JFrame {
                 System.out.println("Выберите координаты флажка: ");
                 int x3 = scanner.nextInt();
                 int y3 = scanner.nextInt();
-                if (x3 > this.model.getField().checkSize() || y3 > this.model.getField().checkSize() || x3 * y3 < 0) {
+                if (x3 > this.model.getField().getSize() || y3 > this.model.getField().getSize() || x3 * y3 < 0) {
                     lab3.log.Log.printError("Выход за пределы поля!");
                     throw new Goingabroad("Выход за пределы поля!");
                 } else {

@@ -7,15 +7,15 @@ public class Matrix {
     private int rows;
     public int[][] data;
 
+    public int getData(int x,int y){
+        return this.data[x][y];
+    }
+
     public Matrix(int columns, int rows) {
         this.columns = columns;
         this.rows = rows;
         this.data = new int[rows][columns];
     }
-
-    //public int getData(int x, int y){
-      //  return this.data[x][y];
-    //}
 
     private int sumElements() {
         int sum = 0;
@@ -45,15 +45,6 @@ public class Matrix {
                     }
                 }
             }
-        }
-    }
-
-    public void showMatrix() {
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.columns; j++) {
-                System.out.print(this.data[i][j] + " ");
-            }
-            System.out.print("\n");
         }
     }
 

@@ -12,8 +12,8 @@ public class ConsoleView implements View {
 
     @Override
     public void showGameField() {
-        for (int i = 0; i < this.gamingField.checkSize(); i++) {
-            for (int j = 0; j < this.gamingField.checkSize(); j++) {
+        for (int i = 0; i < this.gamingField.getSize(); i++) {
+            for (int j = 0; j < this.gamingField.getSize(); j++) {
                 if (this.gamingField.checkOpen(i, j) == false && this.gamingField.checkOpenFlag(i, j) == false) {
                     System.out.printf("[%d:%d]", i, j);
                 } else if (this.gamingField.checkOpen(i, j) == true) {
@@ -29,8 +29,8 @@ public class ConsoleView implements View {
 
     @Override
     public void showMines() {
-        for (int i = 0; i < this.gamingField.checkSize(); i++) {
-            for (int j = 0; j < this.gamingField.checkSize(); j++) {
+        for (int i = 0; i < this.gamingField.getSize(); i++) {
+            for (int j = 0; j < this.gamingField.getSize(); j++) {
                 if (this.gamingField.checkOpen(i, j) == false && this.gamingField.getMine(i,j)==0) {
                     System.out.printf("[%d:%d]", i, j);
                 } else if (this.gamingField.checkOpen(i, j) == true && this.gamingField.getMine(i,j) ==0 ) {
