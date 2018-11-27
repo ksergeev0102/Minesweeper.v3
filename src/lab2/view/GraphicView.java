@@ -7,9 +7,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Scanner;
-import java.util.TimerTask;
 
 public class GraphicView extends JFrame {
+    private TimerLabel timeLabel;
     Scanner scanner = new Scanner(System.in);
     private Gamemodel model;
     private JPanel panel;
@@ -25,48 +25,47 @@ public class GraphicView extends JFrame {
         this.model = new Gamemodel(this.sizeCanvas, this.bombs);
         initLabel();
         initPanel();
-//        final TimerLabel timeLabel = new TimerLabel();
-//        timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         initFrame();
     }
 
     private void initLabel() {
-        label = new JLabel("Найди все бомбы!!!");
+        label = new JLabel("Откройте все пустые ячейки");
         add(label, BorderLayout.SOUTH);
     }
 
     public void setIm(Graphics g, int x, int y) {
+        ImageIcon imageIcon;
         if (model.getField().checkOpen(x, y) == true) {
             if (model.getField().getValueForgame(x, y) == 0 && model.getField().checkMine(x,y) == false&&
                     model.getField().checkOpenFlag(x, y) == false) {
-                ImageIcon im_0 = new ImageIcon("./src/Images/0.jpg");
-                g.drawImage(im_0.getImage(), x * 30, y * 30, 30, 30, this);
+                imageIcon = new ImageIcon("./src/Images/0.jpg");
+                g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             } else if (model.getField().getValueForgame(x, y) == 1 && model.getField().checkMine(x,y) == false&&
                     model.getField().checkOpenFlag(x, y) == false) {
-                ImageIcon im_1 = new ImageIcon("./src/Images/1.jpg");
-                g.drawImage(im_1.getImage(), x * 30, y * 30, 30, 30, this);
+                imageIcon = new ImageIcon("./src/Images/1.jpg");
+                g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             } else if (model.getField().getValueForgame(x, y) == 2 && model.getField().checkMine(x,y) == false&&
                     model.getField().checkOpenFlag(x, y) == false) {
-                ImageIcon im_2 = new ImageIcon("./src/Images/2.jpg");
-                g.drawImage(im_2.getImage(), x * 30, y * 30, 30, 30, this);
+                imageIcon = new ImageIcon("./src/Images/2.jpg");
+                g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             } else if (model.getField().getValueForgame(x, y) == 3 && model.getField().checkMine(x,y) == false&&
                     model.getField().checkOpenFlag(x, y) == false) {
-                ImageIcon im_3 = new ImageIcon("./src/Images/3.jpg");
-                g.drawImage(im_3.getImage(), x * 30, y * 30, 30, 30, this);
+                imageIcon = new ImageIcon("./src/Images/3.jpg");
+                g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             } else if (model.getField().getValueForgame(x, y) == 4 && model.getField().checkMine(x,y) == false&&
                     model.getField().checkOpenFlag(x, y) == false) {
-                ImageIcon im_4 = new ImageIcon("./src/Images/4.jpg");
-                g.drawImage(im_4.getImage(), x * 30, y * 30, 30, 30, this);
+                imageIcon = new ImageIcon("./src/Images/4.jpg");
+                g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             } else if (model.getField().getValueForgame(x, y) == 5 && model.getField().checkMine(x,y) == false&&
                     model.getField().checkOpenFlag(x, y) == false) {
-                ImageIcon im_5 = new ImageIcon("./src/Images/5.jpg");
-                g.drawImage(im_5.getImage(), x * 30, y * 30, 30, 30, this);
+                imageIcon = new ImageIcon("./src/Images/5.jpg");
+                g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             } else if (model.getField().checkOpenFlag(x, y) == true && model.getField().checkOpen(x,y) == true) {
-                ImageIcon im_f = new ImageIcon("./src/Images/f.jpg");
-                g.drawImage(im_f.getImage(), x * 30, y * 30, 30, 30, this);
+                imageIcon = new ImageIcon("./src/Images/f.jpg");
+                g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             } else if (model.getField().checkMine(x, y) == true) {
-                ImageIcon im_b = new ImageIcon("./src/Images/b.jpg");
-                g.drawImage(im_b.getImage(), x * 30, y * 30, 30, 30, this);
+                imageIcon = new ImageIcon("./src/Images/b.jpg");
+                g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             }
         }
     }
@@ -94,15 +93,17 @@ public class GraphicView extends JFrame {
                 int y = e.getY() / 30;
                 if (model.getState() == false) {
                     model.setField(model.getField().checkMines(), x, y);
+                    timeLabel = new TimerLabel();
+                    add(timeLabel,BorderLayout.SOUTH);
+                    timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 }
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    if (model.getField().checkMine(x, y) == true && model.getField().checkOpenFlag(x,y) == false) {
+                    if (model.getField().checkMine(x, y) == true && model.getField().checkOpenFlag(x,y) == false
+                    || model.getField().youWon()) {
                         label.setText(getessage(x, y));
                         model.getField().openMines();
-//                        timeLabel.stopTimer();
+                        timeLabel.stopTimer();
                         panel.repaint();
-                        //setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                        //dispose();
                     } else {
                         model.getField().openCell(x, y);
                         panel.repaint();
@@ -137,29 +138,4 @@ public class GraphicView extends JFrame {
         setLocationRelativeTo(null);
 
     }
-
-//    class TimerLabel extends JLabel {
-//        Timer timer = new Timer();
-//        TimerLabel() {
-//            timer.scheduleAtFixedRate(timerTask, 0, 1000);
-//        }
-//        TimerTask timerTask = new TimerTask() {
-//            volatile int time;
-//            Runnable refresher = new Runnable() {
-//                public void run() {
-//                    TimerLabel.this.setText(String.format("%02d:%02d", time / 60, time % 60));
-//                }
-//            };
-//            public void run() {
-//                time++;
-//                SwingUtilities.invokeLater(refresher);
-//            }
-//        };
-//
-//        void stopTimer() {
-//            timer.cancel();
-//        }
-//    }
-//
-
 }

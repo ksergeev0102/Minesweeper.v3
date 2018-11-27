@@ -1,14 +1,15 @@
 package lab2.view;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerLabel extends JLabel {
-    private Timer timer;
+    private java.util.Timer timer = new Timer();
 
-    TimerLabel(ActionListener e) {
-        this.timer = new Timer(0, e );
+    TimerLabel() {
+        timer.scheduleAtFixedRate(timerTask,0,1000);
+
     }
 
     TimerTask timerTask = new TimerTask() {
@@ -26,7 +27,7 @@ public class TimerLabel extends JLabel {
     };
 
     void stopTimer() {
-        this.timer.stop();
+        this.timer.cancel();
     }
 }
 
