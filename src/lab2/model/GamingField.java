@@ -78,6 +78,16 @@ public class GamingField {
         }
     }
 
+    public void openMines(){
+        for(int i = 0; i<this.size;i++){
+            for(int j = 0; j<this.size;j++){
+                if(this.matrixMines.data[i][j] == 1){
+                    this.open_indicator[i][j] = true;
+                }
+            }
+        }
+    }
+
     public int getFlags() {
         return this.flags;
     }
@@ -157,5 +167,6 @@ public class GamingField {
 
     public void inverseFlag(int x, int y) {
         this.flag_indicator[x][y] = !this.flag_indicator[x][y];
+        this.open_indicator[x][y] = !this.open_indicator[x][y];
     }
 }
