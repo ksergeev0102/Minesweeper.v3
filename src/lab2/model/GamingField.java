@@ -20,7 +20,7 @@ public class GamingField {
         this.forgame = new Matrix(size, size);
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
-                this.matrixMines.data[i][j] = 0;
+                this.matrixMines.setData(i,j,0);
                 this.open_indicator[i][j] = false;
                 this.flag_indicator[i][j] = false;
             }
@@ -29,17 +29,17 @@ public class GamingField {
 
     public void inicializaiton(int mines, int m, int n) {
         this.matrixMines.randomFilling(mines, this.value);
-        this.matrixMines.data[m][n] = 0;
+        this.matrixMines.setData(m,n,0);
         this.open_indicator[m][n] = true;
         this.forgame.FieldWithNumbers(this.matrixMines);
     }
 
     public int getValueForgame(int x, int y) {
-        return this.forgame.data[x][y];
+        return this.forgame.getData(x,y);
     }
 
     public boolean checkMine(int x, int y) {
-        if (this.matrixMines.data[x][y] == 1) {
+        if (this.matrixMines.getData(x,y) == 1) {
             return true;
         } else {
             return false;
@@ -67,7 +67,7 @@ public class GamingField {
     }
 
     public int getMine(int x, int y) {
-        return this.matrixMines.data[x][y];
+        return this.matrixMines.getData(x,y);
     }
 
     public boolean checkFlag(int x, int y) {
@@ -81,7 +81,7 @@ public class GamingField {
     public void openMines(){
         for(int i = 0; i<this.size;i++){
             for(int j = 0; j<this.size;j++){
-                if(this.matrixMines.data[i][j] == 1){
+                if(this.matrixMines.getData(i,j) == 1){
                     this.open_indicator[i][j] = true;
                 }
             }
@@ -115,9 +115,9 @@ public class GamingField {
     public void openCell(int x, int y) {
         if (this.flag_indicator[x][y] == true) {
             return;
-        } else if (forgame.data[x][y] != 0 && this.matrixMines.data[x][y] != 1) {
+        } else if (forgame.getData(x,y) != 0 && this.matrixMines.getData(x,y) != 1) {
             this.open_indicator[x][y] = true;
-        } else if (this.forgame.data[x][y] == 0 && this.matrixMines.data[x][y] != 1) {
+        } else if (this.forgame.getData(x,y) == 0 && this.matrixMines.getData(x,y) != 1) {
             this.open_indicator[x][y] = true;
             if (y + 1 < this.size) {
                 if (this.open_indicator[x][y + 1] == false) {
@@ -139,10 +139,10 @@ public class GamingField {
                     openCell(x, y - 1);
                 }
             }
-        } else if (this.forgame.data[x][y] != 0 && this.matrixMines.data[x][y] == 1) {
+        } else if (this.forgame.getData(x,y) != 0 && this.matrixMines.getData(x,y) == 1) {
             this.open_indicator[x][y] = true;
         } else if (((x == 0 && y == 0) || (x == this.size && y == 0)
-                || (x == 0 && y == this.size) || (x == this.size && y == this.size)) && this.matrixMines.data[x][y] != 1) {
+                || (x == 0 && y == this.size) || (x == this.size && y == this.size)) && this.matrixMines.getData(x,y) != 1) {
             this.open_indicator[x][y] = true;
         }
     }

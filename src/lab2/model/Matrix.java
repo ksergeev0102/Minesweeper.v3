@@ -5,10 +5,14 @@ import java.util.Random;
 public class Matrix {
     private int columns;
     private int rows;
-    public int[][] data;
+    private int[][] data;
 
     public int getData(int x,int y){
         return this.data[x][y];
+    }
+
+    public void setData(int x,int y,int value){
+        this.data[x][y] = value;
     }
 
     public Matrix(int columns, int rows) {
