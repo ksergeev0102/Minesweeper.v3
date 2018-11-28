@@ -29,41 +29,41 @@ public class GraphicView extends JFrame {
     }
 
     private void initLabel() {
-        label = new JLabel("Откройте все пустые ячейки");
+        label = new JLabel("ОТКРОЙТЕ ВСЕ ПУСТЫЕ ЯЧЕЙКИ");
         add(label, BorderLayout.SOUTH);
     }
 
     public void setIm(Graphics g, int x, int y) {
         ImageIcon imageIcon;
         if (model.getField().checkOpen(x, y) == true) {
-            if (model.getField().getValueForgame(x, y) == 0 && model.getField().checkMine(x,y) == false&&
+            if (model.getField().getValueForgame(x, y) == 0 && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/0.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 1 && model.getField().checkMine(x,y) == false&&
+            } else if (model.getField().getValueForgame(x, y) == 1 && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/1.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 2 && model.getField().checkMine(x,y) == false&&
+            } else if (model.getField().getValueForgame(x, y) == 2 && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/2.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 3 && model.getField().checkMine(x,y) == false&&
+            } else if (model.getField().getValueForgame(x, y) == 3 && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/3.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 4 && model.getField().checkMine(x,y) == false&&
+            } else if (model.getField().getValueForgame(x, y) == 4 && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/4.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 5 && model.getField().checkMine(x,y) == false&&
+            } else if (model.getField().getValueForgame(x, y) == 5 && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/5.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().checkOpenFlag(x, y) == true && model.getField().checkOpen(x,y) == true) {
+            } else if (model.getField().checkOpenFlag(x, y) == true) {
                 imageIcon = new ImageIcon("./src/Images/f.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().checkMine(x, y) == true) {
+            } else if (model.getField().checkMine(x, y) == true && model.getField().checkOpen(x,y) == true) {
                 imageIcon = new ImageIcon("./src/Images/b.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             }
@@ -77,7 +77,8 @@ public class GraphicView extends JFrame {
                 super.paintComponent(g);
                 for (int i = 0; i < sizeCanvas; i++) {
                     for (int j = 0; j < sizeCanvas; j++) {
-                        if (model.getField().checkOpen(i, j) == false && model.getField().checkFlag(i, j) == false)
+                        if (model.getField().checkOpen(i, j) == false
+                        && model.getField().checkOpenFlag(i,j) == false)
                             g.drawRect(i * 30, j * 30, 30, 30);
                         else {
                             setIm(g, i, j);
@@ -94,36 +95,52 @@ public class GraphicView extends JFrame {
                 if (model.getState() == false) {
                     model.setField(model.getField().checkMines(), x, y);
                     timeLabel = new TimerLabel();
-                    add(timeLabel,BorderLayout.SOUTH);
-                    timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                    add(timeLabel, BorderLayout.SOUTH);
+                    timeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                 }
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    if (model.getField().checkMine(x, y) == true && model.getField().checkOpenFlag(x,y) == false
-                    || model.getField().youWon()) {
-                        label.setText(getessage(x, y));
-                        model.getField().openMines();
-                        timeLabel.stopTimer();
-                        panel.repaint();
-                    } else {
-                        model.getField().openCell(x, y);
-                        panel.repaint();
+                if (model.getField().youWon() == true) {
+                    timeLabel.stopTimer();
+                    label.setText(getessage(x, y));
+                    panel.repaint();
+                } else {
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        if (model.getField().checkMine(x, y) == true
+                                && model.getField().checkOpenFlag(x, y) == false
+                                && model.getField().youWon() == false) {
+                            label.setText(getessage(x, y));
+                            model.getField().openMines();
+                            timeLabel.stopTimer();
+                            panel.repaint();
+                        } else if (model.getField().checkMine(x, y) == false
+                                && model.getField().checkOpenFlag(x, y) == false
+                                && model.getField().youWon() == false) {
+                            model.getField().openCell(x, y);
+                            label.setText(getessage(x, y));
+                            panel.repaint();
+                            if (model.getField().youWon() == true) {
+                                label.setText(getessage(x, y));
+                                timeLabel.stopTimer();
+                                panel.repaint();
+                            }
+                        }
+                    }
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            model.getField().inverseFlag(x, y);
+                            panel.repaint();
+                        }
                     }
                 }
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    model.getField().inverseFlag(x, y);
-                    panel.repaint();
-                }
-            }
         });
         panel.setPreferredSize(new Dimension(30 * sizeCanvas, 30 * sizeCanvas));
         add(panel);
+
     }
 
     private String getessage(int x, int y) {
-        if (model.getField().youWon()) {
-            return "Вы выиграли";
+        if (model.getField().youWon() == true) {
+            return "ВЫ ВЫИГРАЛИ";
         } else if (model.getField().checkMine(x, y) == true) {
-            return "Взрыв";
+            return "ВЗРЫВ";
         } else {
             return "Еще остались бомбы";
         }
@@ -131,11 +148,10 @@ public class GraphicView extends JFrame {
 
     private void initFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("MINESWEEPER");
+        setTitle("САПЕР");
         setResizable(false);
         setVisible(true);
         pack();
         setLocationRelativeTo(null);
-
     }
 }

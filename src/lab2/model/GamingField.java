@@ -70,14 +70,6 @@ public class GamingField {
         return this.matrixMines.getData(x,y);
     }
 
-    public boolean checkFlag(int x, int y) {
-        if (this.flag_indicator[x][y] == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void openMines(){
         for(int i = 0; i<this.size;i++){
             for(int j = 0; j<this.size;j++){
@@ -97,15 +89,15 @@ public class GamingField {
     }
 
     public boolean youWon() {
-        int sum = 0;
+        int sum1 = 0;
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
                 if (this.open_indicator[i][j] == false) {
-                    sum++;
+                    sum1++;
                 }
             }
         }
-        if (sum == this.mines) {
+        if (sum1 == this.mines) {
             return true;
         } else {
             return false;
