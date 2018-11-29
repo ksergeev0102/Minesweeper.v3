@@ -50,7 +50,7 @@ public class GamingField {
     }
 
     public boolean checkOpen(int x, int y) {
-        if (this.open_indicator[x][y] == true) {
+        if (this.open_indicator[x][y]) {
             return true;
         } else {
             return false;
@@ -58,7 +58,7 @@ public class GamingField {
     }
 
     public boolean checkOpenFlag(int x, int y) {
-        if (this.flag_indicator[x][y] == true) {
+        if (this.flag_indicator[x][y]) {
             return true;
         } else {
             return false;
@@ -66,7 +66,7 @@ public class GamingField {
     }
 
     public boolean checkopenMine(int x, int y) {
-        if (this.mines_indicator[x][y] == true) {
+        if (this.mines_indicator[x][y]) {
             return true;
         } else {
             return false;
@@ -103,7 +103,7 @@ public class GamingField {
         int sum1 = 0;
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
-                if (this.open_indicator[i][j] == false) {
+                if (!this.open_indicator[i][j]) {
                     sum1++;
                 }
             }
@@ -116,29 +116,29 @@ public class GamingField {
     }
 
     public void openCell(int x, int y) {
-        if (this.flag_indicator[x][y] == true) {
+        if (this.flag_indicator[x][y]) {
             return;
         } else if (forgame.getData(x, y) != 0 && this.matrixMines.getData(x, y) != 1) {
             this.open_indicator[x][y] = true;
         } else if (this.forgame.getData(x, y) == 0 && this.matrixMines.getData(x, y) != 1) {
             this.open_indicator[x][y] = true;
             if (y + 1 < this.size) {
-                if (this.open_indicator[x][y + 1] == false) {
+                if (!this.open_indicator[x][y + 1]) {
                     openCell(x, y + 1);
                 }
             }
             if (x - 1 >= 0) {
-                if (this.open_indicator[x - 1][y] == false) {
+                if (!this.open_indicator[x - 1][y]) {
                     openCell(x - 1, y);
                 }
             }
             if (x + 1 < this.size) {
-                if (this.open_indicator[x + 1][y] == false) {
+                if (!this.open_indicator[x + 1][y]) {
                     openCell(x + 1, y);
                 }
             }
             if (y - 1 >= 0) {
-                if (this.open_indicator[x][y - 1] == false) {
+                if (!this.open_indicator[x][y - 1]) {
                     openCell(x, y - 1);
                 }
             }
@@ -151,20 +151,16 @@ public class GamingField {
     }
 
     public void putFlag(int x, int y) {
-        if (this.flag_indicator[x][y] != true && this.flags > 0) {
+        if (!this.flag_indicator[x][y] && this.flags > 0) {
             this.flag_indicator[x][y] = true;
             this.flags--;
-        } else {
-            return;
         }
     }
 
     public void delFlag(int x, int y) {
-        if (this.flag_indicator[x][y] != false && this.flags < this.mines) {
+        if (this.flag_indicator[x][y] && this.flags < this.mines) {
             this.flag_indicator[x][y] = false;
             this.flags++;
-        } else {
-            return;
         }
     }
 
@@ -172,7 +168,7 @@ public class GamingField {
         int sum = 0;
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
-                if (this.flag_indicator[i][j] == true) {
+                if (this.flag_indicator[i][j]) {
                     sum++;
                 }
             }
