@@ -35,7 +35,9 @@ public class GraphicView extends JFrame {
 
     public void setIm(Graphics g, int x, int y) {
         ImageIcon imageIcon;
-        if (model.getField().checkOpen(x, y) == true || model.getField().checkOpenFlag(x,y)==true) {
+        if (model.getField().checkOpen(x, y) == true
+                || model.getField().checkOpenFlag(x, y) == true
+                || model.getField().checkopenMine(x, y) == true) {
             if (model.getField().getValueForgame(x, y) == 0
                     && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
@@ -69,8 +71,7 @@ public class GraphicView extends JFrame {
             } else if (model.getField().checkOpenFlag(x, y) == true) {
                 imageIcon = new ImageIcon("./src/Images/f.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().checkMine(x, y) == true &&
-                    model.getField().checkOpen(x, y) == true) {
+            } else if (model.getField().checkopenMine(x, y) == true) {
                 imageIcon = new ImageIcon("./src/Images/b.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             }
@@ -85,7 +86,8 @@ public class GraphicView extends JFrame {
                 for (int i = 0; i < sizeCanvas; i++) {
                     for (int j = 0; j < sizeCanvas; j++) {
                         if (model.getField().checkOpen(i, j) == false
-                                && model.getField().checkOpenFlag(i, j) == false)
+                                && model.getField().checkOpenFlag(i, j) == false
+                                && model.getField().checkopenMine(i, j) == false)
                             g.drawRect(i * 30, j * 30, 30, 30);
                         else {
                             setIm(g, i, j);
@@ -111,11 +113,11 @@ public class GraphicView extends JFrame {
                     panel.repaint();
                 } else {
                     if (e.getButton() == MouseEvent.BUTTON1) {
-                        if (model.getField().checkMine(x, y) == true
-                                && model.getField().checkOpenFlag(x, y) == false
-                                && model.getField().youWon() == false) {
-                            label.setText(getessage(x, y));
+                        if (model.getField().checkMine(x, y) == true &&
+                                model.getField().checkOpenFlag(x, y) == false &&
+                                model.getField().youWon() == false) {
                             model.getField().openMines();
+                            label.setText(getessage(x, y));
                             timeLabel.stopTimer();
                             panel.repaint();
                         } else if (model.getField().checkMine(x, y) == false
@@ -148,7 +150,7 @@ public class GraphicView extends JFrame {
         } else if (model.getField().checkMine(x, y) == true) {
             return "ВЗРЫВ";
         } else {
-            return "Еще остались бомбы";
+            return "ЕЩЕ ОСТАЛИСЬ БОМБЫ";
         }
     }
 
