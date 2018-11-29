@@ -159,6 +159,6 @@ public class GamingField {
 
     public void inverseFlag(int x, int y) {
         this.flag_indicator[x][y] = !this.flag_indicator[x][y];
-        this.open_indicator[x][y] = !this.open_indicator[x][y];
+        //this.open_indicator[x][y]= !this.open_indicator[x][y];
     }
 }

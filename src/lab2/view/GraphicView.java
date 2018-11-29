@@ -35,35 +35,42 @@ public class GraphicView extends JFrame {
 
     public void setIm(Graphics g, int x, int y) {
         ImageIcon imageIcon;
-        if (model.getField().checkOpen(x, y) == true) {
-            if (model.getField().getValueForgame(x, y) == 0 && model.getField().checkMine(x, y) == false &&
+        if (model.getField().checkOpen(x, y) == true || model.getField().checkOpenFlag(x,y)==true) {
+            if (model.getField().getValueForgame(x, y) == 0
+                    && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/0.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 1 && model.getField().checkMine(x, y) == false &&
+            } else if (model.getField().getValueForgame(x, y) == 1
+                    && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/1.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 2 && model.getField().checkMine(x, y) == false &&
+            } else if (model.getField().getValueForgame(x, y) == 2
+                    && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/2.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 3 && model.getField().checkMine(x, y) == false &&
+            } else if (model.getField().getValueForgame(x, y) == 3
+                    && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/3.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 4 && model.getField().checkMine(x, y) == false &&
+            } else if (model.getField().getValueForgame(x, y) == 4
+                    && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/4.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().getValueForgame(x, y) == 5 && model.getField().checkMine(x, y) == false &&
+            } else if (model.getField().getValueForgame(x, y) == 5
+                    && model.getField().checkMine(x, y) == false &&
                     model.getField().checkOpenFlag(x, y) == false) {
                 imageIcon = new ImageIcon("./src/Images/5.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             } else if (model.getField().checkOpenFlag(x, y) == true) {
                 imageIcon = new ImageIcon("./src/Images/f.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
-            } else if (model.getField().checkMine(x, y) == true && model.getField().checkOpen(x,y) == true) {
+            } else if (model.getField().checkMine(x, y) == true &&
+                    model.getField().checkOpen(x, y) == true) {
                 imageIcon = new ImageIcon("./src/Images/b.jpg");
                 g.drawImage(imageIcon.getImage(), x * 30, y * 30, 30, 30, this);
             }
@@ -78,7 +85,7 @@ public class GraphicView extends JFrame {
                 for (int i = 0; i < sizeCanvas; i++) {
                     for (int j = 0; j < sizeCanvas; j++) {
                         if (model.getField().checkOpen(i, j) == false
-                        && model.getField().checkOpenFlag(i,j) == false)
+                                && model.getField().checkOpenFlag(i, j) == false)
                             g.drawRect(i * 30, j * 30, 30, 30);
                         else {
                             setIm(g, i, j);
@@ -123,13 +130,12 @@ public class GraphicView extends JFrame {
                                 panel.repaint();
                             }
                         }
-                    }
-                        if (e.getButton() == MouseEvent.BUTTON3) {
-                            model.getField().inverseFlag(x, y);
-                            panel.repaint();
-                        }
+                    } else if (e.getButton() == MouseEvent.BUTTON3) {
+                        model.getField().inverseFlag(x, y);
+                        panel.repaint();
                     }
                 }
+            }
         });
         panel.setPreferredSize(new Dimension(30 * sizeCanvas, 30 * sizeCanvas));
         add(panel);
