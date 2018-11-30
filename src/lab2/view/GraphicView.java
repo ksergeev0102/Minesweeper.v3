@@ -107,9 +107,8 @@ public class GraphicView extends JFrame {
                     add(timeLabel, BorderLayout.SOUTH);
                     timeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                 }
-                if (model.getField().youWon()) {
+                if (model.getField().youWon()||model.getField().youLose()) {
                     timeLabel.stopTimer();
-                    label.setText(getessage(x, y));
                     panel.repaint();
                 } else {
                     if (e.getButton() == MouseEvent.BUTTON1) {
@@ -124,7 +123,6 @@ public class GraphicView extends JFrame {
                                 && !model.getField().checkOpenFlag(x, y)
                                 && !model.getField().youWon()) {
                             model.getField().openCell(x, y);
-                            label.setText(getessage(x, y));
                             panel.repaint();
                             if (model.getField().youWon()) {
                                 label.setText(getessage(x, y));

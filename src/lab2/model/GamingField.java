@@ -115,6 +115,16 @@ public class GamingField {
         }
     }
 
+    public boolean youLose(){
+        int sum = 0;
+        for(int i = 0;i<size;i++){
+            for(int j = 0;j<size;j++){
+                if(mines_indicator[i][j]){sum++;}
+            }
+        }
+        if(sum>0){return true;}else{return false;}
+    }
+
     public void openCell(int x, int y) {
         if (flag_indicator[x][y]) {
             return;
