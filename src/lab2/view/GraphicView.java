@@ -19,10 +19,10 @@ public class GraphicView extends JFrame {
 
     public GraphicView() {
         System.out.println("Введите размер поля: ");
-        this.sizeCanvas = scanner.nextInt();
+        sizeCanvas = scanner.nextInt();
         System.out.println("Введите количество мин на поле: ");
-        this.bombs = scanner.nextInt();
-        this.model = new Gamemodel(this.sizeCanvas, this.bombs);
+        bombs = scanner.nextInt();
+        model = new Gamemodel(sizeCanvas,bombs);
         initLabel();
         initPanel();
         initFrame();
